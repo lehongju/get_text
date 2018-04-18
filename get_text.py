@@ -92,7 +92,8 @@ def get_txt(txt_id):
     finally: #关闭文件
         fo_err.close()
 
-get_txt(1)
+if __name__="__main__":
+    get_txt(1)
 
 ##cd get_text
 #python get_text.py
