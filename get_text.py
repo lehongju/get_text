@@ -26,7 +26,7 @@ def get_txt(txt_id):
         req_url=req_url_base+ txt['id']+'/'                        #根据小说编号获取小说URL
         print("小说编号："+txt['id'])
         res=requests.get(req_url,params=req_header)             #获取小说目录界面
-        res.encoding = 'utf-8'
+        res.encoding = 'utf-8
         soups=BeautifulSoup(res.text,"html.parser")           #soup转化
         #获取小说题目
         txt['title']=soups.select('.xiaoshuo .title h1')[0].text
@@ -53,11 +53,17 @@ def get_txt(txt_id):
                 #请求当前章节页面
                 r=requests.get(txt_section,params=req_header)
                 r.encoding = 'utf-8'
+                #r.encoding = 'gb18030'
                 #soup转换
                 soup=BeautifulSoup(r.text,"html.parser")
                 #获取章节名称
                 section_name=soup.select('.date h1')[0].text
                 section_text = soup.find_all(class_="book_content")[0]
+                #删除无用标签
+                stsm = soup.find_all(id="stsm")[0]
+                stsm_removed = stsm.extract()
+                con_1 = soup.find_all(class_="con_l")[0]
+                con_1_removed = con_1.extract()
                 #获取章节文本
                 section_text=re.sub( '\s+', '\r\n\t', section_text.text).strip('\r\n')#
                 #获取下一章地址
